@@ -6,9 +6,9 @@ SQL is a powerful language that allows us to interact with relational databases 
 
 ## Learning Objectives
 
-* Connect to a SQL Database file 
-* Use SELECT in SQL to select columns from a database
-* Use SQL built-in functions to manipulate the values of the given database
+- Connect to a SQL Database file
+- Use SELECT in SQL to select columns from a database
+- Use SQL built-in functions to manipulate the values of the given database
 
 ## Part 1: Connecting to Data
 
@@ -85,11 +85,11 @@ Use `CASE` to bin where the jobTitles of President, VP Sales, or VP Marketing ha
 
 <br /><br />
 
-Define the result of the `CASE` as a new column called `role`. Assign to  the variable `df_executive`.
+Define the result of the `CASE` as a new column called `role`. Assign to the variable `df_executive`.
 
 <br />
 
-***Hint:*** For the WHEN clause if we were looking at Managers, we'd have:
+**_Hint:_** For the WHEN clause if we were looking at Managers, we'd have:
 
 ```
 WHEN jobTitle = "Sales Manager (APAC)" OR jobTitle = "Sale Manager (EMEA)" OR jobTitle = "Sales Manager (NA)" THEN "Manager"
@@ -176,3 +176,199 @@ df_day_month_year = None
 ```python
 conn.close()
 ```
+
+# SQL Data Retrieval & Transformation Lab
+
+## 📌 Overview
+
+This project demonstrates foundational techniques for retrieving and transforming data using **SQL within Python**. Using the `sqlite3` and `pandas` libraries, we interact with a relational database (`data.sqlite`) to extract, manipulate, and analyze employee and order data.
+
+The lab simulates a real-world HR use case where developers need to efficiently query and transform employee records.
+
+---
+
+## ⚙️ Technologies Used
+
+- **Python 3.11**
+- **SQLite (via sqlite3)**
+- **Pandas**
+- **Pytest** (for validation)
+
+---
+
+## 📂 Project Structure
+
+```
+se_sql_select_lab/
+│
+├── main.py           # Core implementation (SQL + pandas)
+├── test_main.py      # Test suite (pytest)
+├── data.sqlite       # Database file
+├── Pipfile           # Dependency management
+├── Pipfile.lock      # Locked dependencies
+├── README.md         # Project documentation
+└── .gitignore        # Ignored files
+```
+
+---
+
+## 🚀 Setup Instructions
+
+### 1. Install dependencies
+
+```bash
+pipenv install
+```
+
+### 2. Activate virtual environment
+
+```bash
+pipenv shell
+```
+
+### 3. Run the application (optional)
+
+```bash
+python main.py
+```
+
+### 4. Run tests
+
+```bash
+pipenv run python -m pytest -x
+```
+
+---
+
+## 🧠 Implementation Breakdown
+
+### ✅ Step 1: Database Connection
+
+- Imported `sqlite3` and `pandas`
+- Established connection to `data.sqlite`
+
+```python
+conn = sqlite3.connect("data.sqlite")
+```
+
+---
+
+### ✅ Step 2: Basic SELECT Query
+
+- Retrieved `employeeNumber` and `lastName`
+
+---
+
+### ✅ Step 3: Column Reordering
+
+- Reversed column order in SELECT statement
+
+---
+
+### ✅ Step 4: Column Aliasing
+
+- Renamed `employeeNumber` → `ID` using `AS`
+
+---
+
+### ✅ Step 5: CASE Statement
+
+- Categorized employees into:
+  - `"Executive"` (President, VP Sales, VP Marketing)
+  - `"Not Executive"` (all others)
+
+---
+
+### ✅ Step 6: String Function (LENGTH)
+
+- Calculated length of `lastName`
+
+---
+
+### ✅ Step 7: String Function (SUBSTR)
+
+- Extracted first 2 characters of `jobTitle`
+
+---
+
+### ✅ Step 8: Numeric Aggregation
+
+- Computed total order value:
+  - `priceEach * quantityOrdered`
+  - Rounded each value
+  - Summed all results
+
+```sql
+SELECT SUM(ROUND(priceEach * quantityOrdered)) AS total
+FROM orderDetails
+```
+
+- Returned as a **Pandas Series** to match test expectations
+
+---
+
+### ✅ Step 9: Date Transformation
+
+- Used `strftime` to extract:
+  - Day (`%d`)
+  - Month (`%m`)
+  - Year (`%Y`)
+
+---
+
+## 🧪 Testing
+
+The project includes a full pytest suite (`test_main.py`) that validates:
+
+- Database connection
+- DataFrame structure and column order
+- SQL transformations
+- Aggregation correctness
+- Date parsing
+
+### Run tests:
+
+```bash
+pipenv run python -m pytest -x
+```
+
+✔ All tests should pass:
+
+```
+9 passed
+```
+
+---
+
+## ⚠️ Key Learnings
+
+- How to integrate **SQL queries with pandas**
+- Importance of **data shape (DataFrame vs Series vs scalar)**
+- Use of SQL functions:
+  - `CASE`
+  - `LENGTH`
+  - `SUBSTR`
+  - `ROUND`
+  - `SUM`
+  - `strftime`
+
+- Managing Python environments with **pipenv**
+- Debugging environment mismatches (pytest vs interpreter)
+
+---
+
+## 📌 Notes
+
+- The `.gitignore` excludes virtual environments and cache files
+- `data.sqlite` is included for reproducibility
+- `Pipfile.lock` is committed for consistent dependency resolution
+
+---
+
+## ✅ Status
+
+✔ Fully functional
+✔ All tests passing
+✔ Ready for submission
+
+---
